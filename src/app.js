@@ -110,11 +110,6 @@ primus.on('connection', function (spark) {
     spark.on('data', function message(data) {
         if (data.request !== undefined) {
             try {
-                // Sanity check for data.id
-                if (data.id !== undefined) {
-                    return;
-                }
-
                 // Find a node based off of the id
                 var foundNode = findNode(data.id);
                 switch (data.request) {
@@ -138,7 +133,7 @@ primus.on('connection', function (spark) {
                         console.log('added');
                         break;
                     case 'name':
-                        foundNode.name = data.name;
+                        foundNode.model.name = data.name;
                         console.log('name change');
                         break;
                     case 'minMax':

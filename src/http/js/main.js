@@ -40,7 +40,26 @@ $(document).ready(function() {
     });
 
     body.on('click', '.node', function () {
-        $(this).data("name"); // name of factory
-        console.log(this.id); // id of factory
+        $("#edit-name").val($(this).data("name"));
+        $("#edit-node-id").val(this.id);
+    });
+
+    body.on('click', '#node-edit', function () {
+        var editNode = {
+            request: 'name',
+            name: $("#edit-name").val(),
+            id: $("#edit-node-id").val()
+        };
+        primus.write(editNode);
+        $('#editModal').modal('hide');
+    });
+
+    body.on('click', '#node-delete', function () {
+        var deleteNode = {
+            request: 'drop',
+            id: $("#edit-node-id").val()
+        };
+        primus.write(deleteNode);
+        $('#editModal').modal('hide');
     });
 });
