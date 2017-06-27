@@ -10,7 +10,6 @@ $(document).ready(function() {
         var output = parser();
 
         primus.on("data", function (data) {
-            console.log("data:", data);
             $("#nodeTable").html(parser(data));
         });
     });
@@ -25,7 +24,7 @@ $(document).ready(function() {
             min: Number($("#min").val()),
             max: Number($("#max").val())
         };
-        console.log(newNode);
+
         if (newNode.name !== ''
             && newNode.count > 0
             && newNode.min >= 0
@@ -41,14 +40,20 @@ $(document).ready(function() {
 
     body.on('click', '.node', function () {
         $("#edit-name").val($(this).data("name"));
+        $("#edit-min").val($(this).data("min"));
+        $("#edit-max").val($(this).data("max"));
+        $("#edit-count").val($(this).data("count"));
         $("#edit-node-id").val(this.id);
     });
 
     body.on('click', '#node-edit', function () {
         var editNode = {
-            request: 'name',
-            name: $("#edit-name").val(),
-            id: $("#edit-node-id").val()
+            request: 'edit',
+            name:   $("#edit-name").val(),
+            min:    $("#edit-min").val(),
+            max:    $("#edit-max").val(),
+            count: $("#edit-count").val(),
+            id:     $("#edit-node-id").val()
         };
         primus.write(editNode);
         $('#editModal').modal('hide');

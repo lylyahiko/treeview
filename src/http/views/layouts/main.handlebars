@@ -1,8 +1,20 @@
-<button type="button" id="root" class="btn btn-primary" data-toggle="modal" data-target="#nodeModal">Root</button>
-<hr>
-{{#each tree.children}}
-<button type="button" id="{{id}}" class="btn btn-default node" data-toggle="modal" data-name="{{name}}" data-target="#editModal">{{name}}</button>
-    {{#each this.values}}
-        <div>{{this}}</div>
-    {{/each}}
-{{/each}}
+<div class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <button type="button" id="root" class="btn btn-primary node-button" data-toggle="modal" data-target="#nodeModal">Root</button>
+
+        <ul class="list-group">
+        {{#each tree.children}}
+                <button type="button" id="{{id}}" class="btn btn-default node" data-toggle="modal" data-name="{{name}}"
+                data-min="{{min}}" data-max="{{max}}" data-count="{{this.values.length}}" data-target="#editModal">{{name}}</button>
+            <li class="list-group-item">
+                <ul class="list-group">
+                    {{#each this.values}}
+                        <li>{{this}}</li>
+                    {{/each}}
+                </ul>
+            </li>
+        {{/each}}
+        </ul>
+    </div>
+</div>

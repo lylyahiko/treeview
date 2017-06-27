@@ -61,6 +61,8 @@ function createRandomNumber(data) {
 function buildNumberArray(data) {
     var count = 0;
     var builtArray = [];
+    console.log('data');
+    console.log(data);
     while (count < data.count) {
         builtArray.push(createRandomNumber(data));
         console.log(count);
@@ -132,14 +134,13 @@ primus.on('connection', function (spark) {
                         root.addChild(newNode);
                         console.log('added');
                         break;
-                    case 'name':
+                    case 'edit':
                         foundNode.model.name = data.name;
-                        console.log('name change');
-                        break;
-                    case 'minMax':
-                        foundNode.min = data.min;
-                        foundNode.max = data.max;
-                        console.log('min max adjusted');
+                        foundNode.model.min = data.min;
+                        foundNode.model.max = data.max;
+                        values = buildNumberArray(data);
+                        foundNode.model.values = values;
+                        console.log('factory edited and new numbers generated');
                         break;
                     case undefined:
                         console.log('this was never defined');

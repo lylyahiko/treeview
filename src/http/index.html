@@ -3,7 +3,7 @@
 </head>
 <html>
 <body>
-    <h2>Factory Tree</h2>
+    <div class="col-sm-12" style="text-align:center"><h2>Factory Tree</h2></div>
     <div id="nodeTable"></div>
 </body>
 <footer></footer>
@@ -21,13 +21,19 @@
                 <div class="form-group">
                     <label for="edit-name">Name:</label>
                     <input type="text" class="form-control" id="edit-name">
+                    <label for="edit-min">Min:</label>
+                    <input type="text" class="form-control" id="edit-min">
+                    <label for="edit-max">Max:</label>
+                    <input type="text" class="form-control" id="edit-max">
+                    <label for="edit-count">Count:</label>
+                    <input type="text" class="form-control" id="edit-count">
                 </div>
                 <input type="hidden" id="edit-node-id" name="id">
             </div>
             <div class="modal-footer">
                 <button type="button" id="node-delete" data-toggle="confirmation" class="btn btn-danger">Delete</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" id="node-edit" class="btn btn-primary">Save</button>
+                <button type="button" id="node-edit" class="btn btn-primary">Generate</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
