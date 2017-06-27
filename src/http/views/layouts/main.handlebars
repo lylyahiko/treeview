@@ -1,0 +1,8 @@
+<button type="button" id="root" class="btn btn-primary" data-toggle="modal" data-target="#nodeModal">Root</button>
+<hr>
+{{#each tree.children}}
+<button type="button" id="{{id}}" class="btn btn-default node" data-toggle="modal" data-name="{{name}}" data-target="#editModal">{{name}}</button>
+    {{#each this.values}}
+        <div>{{this}}</div>
+    {{/each}}
+{{/each}}

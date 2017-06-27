@@ -65,7 +65,9 @@ function buildNumberArray(data) {
     var count = 0;
     var builtArray = [];
     while (count < data.count) {
-        builtArray.push(createRandomNumber(data.min, data.max));
+        builtArray.push(createRandomNumber(data));
+        console.log(count);
+        count++;
     }
     return builtArray;
 }
@@ -105,7 +107,7 @@ function loadTree(callback) {
 
 primus.on('connection', function (spark) {
     spark.write({
-        message: 'A connection happened'
+        tree: root.model
     });
 
     spark.on('data', function message(data) {
@@ -135,7 +137,7 @@ primus.on('connection', function (spark) {
                             values: values
                         });
                         // Add it to the parent
-                        data.node.addChild(newNode);
+                        root.addChild(newNode);
                         console.log('added');
                         break;
                     case 'name':
@@ -165,6 +167,6 @@ primus.on('connection', function (spark) {
     });
 });
 
-loadTree(function() {
-    console.log(root.model);
-});
+loadTree(
+    //function() { console.log(root.model); }
+);
