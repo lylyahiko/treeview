@@ -38,7 +38,7 @@ console.log(path.join(__dirname, '/http'));
 app.use(express['static'](path.join(__dirname, '/http')));
 
 // Start Express
-server.listen(3306);
+server.listen((process.env.PORT || 3306));
 console.log('Things should be good to go.');
 
 // Find the node that we are working with
