@@ -1,1 +1,1 @@
-wed: node app.js
+wed: node src/app.js
