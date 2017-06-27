@@ -19,8 +19,10 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "handlebars": "^4.0.10",
     "helmet": "^3.6.1",
     "primus": "^7.0.2",
+    "uuid": "^3.1.0",
     "ws": "^3.0.0"
   }
 }

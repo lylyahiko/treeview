@@ -7,16 +7,21 @@ var express = require('express'),
     passport = require('passport'),
     bodyParser = require('body-parser'),
     app = express(),
+    uuidv1 = require('uuid/v1'),
+    TreeModel = require('tree-model'),
     server = require('http').createServer(app),
+    fs = require('fs'),
     Primus = require('primus'),
     primus = new Primus(server, {
         transformer: 'websockets',
         parser: 'JSON'
     });
 
+// hint: TreeModel, tree and root are
+// globally available on this page
+var tree = new TreeModel();
 
-
-
+var root;
 
 // Connect the middleware to express.
 app.use(bodyParser.json());
@@ -28,14 +33,138 @@ app.use(passport.initialize());
 app.use(passport.session());
 primus.save(__dirname + '/http/js/vendor/primus.js');
 console.log(path.join(__dirname, '/http'));
+
 // Connect Express Routes
 app.use(express['static'](path.join(__dirname, '/http')));
 
 // Start Express
 server.listen(3306);
+console.log('Things should be good to go.');
+
+// Find the node that we are working with
+function findNode(id) {
+    return root.first(function (node) {
+        return node.model.id === id;
+    });
+}
+
+// Get a count of all nodes
+function findAllNodes() {
+    return root.all(function (node) {
+        return true;
+    });
+}
+
+// Quick function to create a random number
+function createRandomNumber(data) {
+    return Math.floor((Math.random() * data.max) + data.min);
+}
+
+// Build a random number array for our nodes
+function buildNumberArray(data) {
+    var count = 0;
+    var builtArray = [];
+    while (count < data.count) {
+        builtArray.push(createRandomNumber(data.min, data.max));
+    }
+    return builtArray;
+}
+
+function saveTree() {
+    // Gather all the nodes and then convert it to JSON
+    fs.writeFile("tree.json", JSON.stringify(root.model) , function(err) {
+        if(err) {
+            return console.log(err);
+        }
+
+        console.log("The file was saved!");
+    });
+}
+
+function loadTree(callback) {
+    // Get the tree from the file
+    fs.readFile('tree.json', function read(err, data) {
+        if (err) {
+            throw err;
+        }
+
+        buildNodeTree(JSON.parse(data), callback);
+    });
+
+    function buildNodeTree(parsedData, callback) {
+        // Load the tree
+        tree = new TreeModel();
+
+        // Parse the tree
+        root = tree.parse(parsedData);
+        if (callback) {
+            callback();
+        }
+    }
+}
 
 primus.on('connection', function (spark) {
     spark.write({
-        message: 'hello'
+        message: 'A connection happened'
     });
+
+    spark.on('data', function message(data) {
+        if (data.request !== undefined) {
+            try {
+                // Sanity check for data.id
+                if (data.id !== undefined) {
+                    return;
+                }
+
+                // Find a node based off of the id
+                var foundNode = findNode(data.id);
+                switch (data.request) {
+                    case 'drop':
+                        foundNode.drop();
+                        console.log('dropped');
+                        break;
+                    case 'add':
+                        var values = buildNumberArray(data);
+                        // Parse the new node
+                        var newNode = tree.parse({
+                            id: uuidv1(),
+                            children: [],
+                            name: data.name,
+                            max: data.max,
+                            min: data.min,
+                            values: values
+                        });
+                        // Add it to the parent
+                        data.node.addChild(newNode);
+                        console.log('added');
+                        break;
+                    case 'name':
+                        foundNode.name = data.name;
+                        console.log('name change');
+                        break;
+                    case 'minMax':
+                        foundNode.min = data.min;
+                        foundNode.max = data.max;
+                        console.log('min max adjusted');
+                        break;
+                    case undefined:
+                        console.log('this was never defined');
+                        break;
+                    default:
+                        return;
+                }
+                if (data.request !== undefined) {
+                    saveTree();
+                    primus.write({tree: root.model});
+                }
+                console.log('server received data');
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    });
+});
+
+loadTree(function() {
+    console.log(root.model);
 });
