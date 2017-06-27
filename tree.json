@@ -1,1 +1,1 @@
-{"id":1,"children":[{"id":"e1164aa0-5ae3-11e7-b344-47b896ca5908","children":[],"name":"Jon","max":250,"min":1,"values":[39,15,171,7]},{"id":"87b7c280-5b39-11e7-9888-154ed3bc73b7","children":[],"name":"New Test","max":"50","min":"1","values":[45,43,45,1]}],"name":"root","values":[]}
+{"id":1,"children":[{"id":"e1164aa0-5ae3-11e7-b344-47b896ca5908","children":[],"name":"Jon","max":"25","min":"1","values":[2,6,9,17,3]},{"id":"87b7c280-5b39-11e7-9888-154ed3bc73b7","children":[],"name":"New Test","max":"50","min":"1","values":[45,43,45,1]}],"name":"root","values":[]}

@@ -61,11 +61,8 @@ function createRandomNumber(data) {
 function buildNumberArray(data) {
     var count = 0;
     var builtArray = [];
-    console.log('data');
-    console.log(data);
     while (count < data.count) {
         builtArray.push(createRandomNumber(data));
-        console.log(count);
         count++;
     }
     return builtArray;
@@ -152,7 +149,6 @@ primus.on('connection', function (spark) {
                     saveTree();
                     primus.write({tree: root.model});
                 }
-                console.log('server received data');
             } catch (error) {
                 console.log(error);
             }
@@ -160,6 +156,4 @@ primus.on('connection', function (spark) {
     });
 });
 
-loadTree(
-    //function() { console.log(root.model); }
-);
+loadTree();

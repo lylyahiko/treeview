@@ -25,16 +25,10 @@ $(document).ready(function() {
             max: Number($("#max").val())
         };
 
-        if (newNode.name !== ''
-            && newNode.count > 0
-            && newNode.min >= 0
-            && newNode.count <=15
-            && newNode.max > newNode.min
-        ) {
+        // Some sanity checking for inputs
+        if (validate(newNode) !== false) {
             primus.write(newNode);
             $('#nodeModal').modal('hide');
-        } else {
-            alert('Please check your inputs and try again');
         }
     });
 
@@ -55,8 +49,10 @@ $(document).ready(function() {
             count: $("#edit-count").val(),
             id:     $("#edit-node-id").val()
         };
-        primus.write(editNode);
-        $('#editModal').modal('hide');
+        if (validate(editNode) !== false) {
+            primus.write(editNode);
+            $('#editModal').modal('hide');
+        }
     });
 
     body.on('click', '#node-delete', function () {
@@ -67,4 +63,38 @@ $(document).ready(function() {
         primus.write(deleteNode);
         $('#editModal').modal('hide');
     });
+
+    function validate(node) {
+        var errorPanel = $('.error-panel');
+        var inputError = $(".input-error");
+        inputError.html('');
+        errorPanel.hide();
+
+        if (node.name === '') {
+            inputError.append('Name is empty');
+            errorPanel.show();
+            return false;
+        }
+
+        if (node.count < 0) {
+            inputError.append('Number needs to be a positive number.');
+            errorPanel.show();
+            return false;
+        }
+
+        if (node.count > 15) {
+            inputError.append('Number needs to be less than or equal to 15.');
+            errorPanel.show();
+            return false;
+        }
+
+        if (node.max < node.min) {
+            inputError.append('The maximum number needs to be greater than the minimum number.');
+            errorPanel.show();
+            return false;
+        }
+        return true;
+    }
+
+    $('.error-panel').hide();
 });
