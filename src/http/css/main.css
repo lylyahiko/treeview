@@ -1,3 +1,20 @@
-.node-button {
-    width: 100%;
+
+.treeview {
+    font-size: 2em;
+}
+
+ul { list-style:none; }
+
+li { padding-top:10px }
+
+ul.left, li.left, div.left { float:left }
+
+ul, li { width:100% }
+
+.expand { width:15px;height:15px; }
+
+.collapse { width:15px;height:15px;display:none }
+
+.form-group {
+    padding-right: 10px;
 }

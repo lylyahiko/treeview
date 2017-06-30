@@ -1,27 +1,34 @@
 <div class="row">
     <div class="col-sm-2"></div>
     <div class="col-sm-8">
-        <ul class="list-group">
-        <li class="list-group-item">
-            <button type="button" id="root" class="btn btn-primary node-button" data-toggle="modal" data-target="#nodeModal">Root</button>
-        </li>
-        {{#each tree.children}}
-            <li class="list-group-item">
-            <div class="row">
-                <div class="col-sm-3"><button type="button" id="{{id}}" class="btn btn-default node node-button" data-toggle="modal" data-name="{{name}}"
-                    data-min="{{min}}" data-max="{{max}}" data-count="{{this.values.length}}" data-target="#editModal">{{name}}</button></div>
-                <div class="col-sm-9">
-                <ul class="list-group">
-                    {{#each this.values}}
-                        <li class="list-group-item">
-                            {{this}}
-                        </li>
-                    {{/each}}
-                </ul>
+        <ul>
+            <li>
+                <div class="left">
+                    <i class="fa fa-minus-square expand" aria-hidden="true"></i>
+                    <i class="fa fa-plus-square collapse" aria-hidden="true"></i>
                 </div>
-            </div>
+                <div id="root" class="btn node-button left" data-toggle="modal" data-target="#nodeModal">Root</div>
+                <ul class="left">
+                {{#each tree.children}}
+                    <li class="left">
+                        <div class="left">
+                            <i class="fa fa-minus-square expand" aria-hidden="true"></i>
+                            <i class="fa fa-plus-square collapse" aria-hidden="true"></i>
+                        </div>
+                        <div id="{{id}}" class="btn node-button left" data-toggle="modal" data-name="{{name}}" data-min="{{min}}"
+                        data-count="{{this.values.length}}" data-target="#editModal">{{name}}
+                        </div>
+                        <ul class="left">
+                            {{#each this.values}}
+                                <li class="left">
+                                    {{this}}
+                                </li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                 {{/each}}
+                </ul>
             </li>
-        {{/each}}
         </ul>
     </div>
 </div>

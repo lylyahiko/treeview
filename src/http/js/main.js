@@ -2,8 +2,8 @@ $(document).ready(function() {
     var parser;
 
     //This is to establish le connection
-    primusprotocol = (location.protocol === 'https:') ? "wss://" : "ws://",
-        primus = window.Primus.connect(primusprotocol + location.host);
+    primusprotocol = (location.protocol === 'https:') ? "wss://" : "ws://";
+    primus = window.Primus.connect(primusprotocol + location.host);
 
     $.get('../views/layouts/main.handlebars', function (template) {
         parser = Handlebars.compile(template);
@@ -32,12 +32,17 @@ $(document).ready(function() {
         }
     });
 
+    body.on('click', '.node-button', function() {
+        $('.error-panel').hide();
+    });
+
     body.on('click', '.node', function () {
         $("#edit-name").val($(this).data("name"));
         $("#edit-min").val($(this).data("min"));
         $("#edit-max").val($(this).data("max"));
         $("#edit-count").val($(this).data("count"));
         $("#edit-node-id").val(this.id);
+        $('.error-panel').hide();
     });
 
     body.on('click', '#node-edit', function () {
@@ -64,11 +69,22 @@ $(document).ready(function() {
         $('#editModal').modal('hide');
     });
 
+    body.on('click', '.expand', function () {
+        $(this).toggle();
+        $(this).next().toggle();
+        $(this).parent().parent().children().last().toggle();
+    });
+
+    body.on('click', '.collapse', function () {
+        $(this).toggle();
+        $(this).prev().toggle();
+        $(this).parent().parent().children().last().toggle();
+    });
+
     function validate(node) {
         var errorPanel = $('.error-panel');
         var inputError = $(".input-error");
         inputError.html('');
-        errorPanel.hide();
 
         if (node.name === '') {
             inputError.append('Name is empty');
