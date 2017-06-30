@@ -18,3 +18,13 @@ ul, li { width:100% }
 .form-group {
     padding-right: 10px;
 }
+
+span.min-max {
+    text-align: center;
+    width:100px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    margin-bottom: 0 !important;
+    background-color: #828282;
+    color: white;
+}
