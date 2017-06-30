@@ -15,13 +15,15 @@
                             <i class="fa fa-minus-square expand" aria-hidden="true"></i>
                             <i class="fa fa-plus-square collapse" aria-hidden="true"></i>
                         </div>
-                        <div id="{{id}}" class="btn node-button left" data-toggle="modal" data-name="{{name}}" data-min="{{min}}"
-                        data-count="{{this.values.length}}" data-target="#editModal">{{name}}
+                        <div id="{{id}}" class="btn node-button node left" data-toggle="modal" data-name="{{name}}" data-min="{{min}}"
+                        data-max="{{max}}" data-count="{{this.values.length}}" data-target="#editModal">{{name}}
                         </div>
                         <ul class="left">
                             {{#each this.values}}
                                 <li class="left">
-                                    {{this}}
+                                    <div class="left">
+                                        - {{this}}
+                                    </div>
                                 </li>
                             {{/each}}
                         </ul>
